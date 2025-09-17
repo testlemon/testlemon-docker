@@ -4,11 +4,6 @@
 
 Testlemon is a tool for easy and quick web api testing and monitoring.
 
-<video width="600" controls>
-  <source src="https://github.com/testlemon/testlemon-docs/raw/main/logos/demo.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
-
 # Documentation
 Vitis [docs.testlemon.com](https://docs.testlemon.com) for complete documentation.
 
@@ -17,6 +12,30 @@ Vitis [docs.testlemon.com](https://docs.testlemon.com) for complete documentatio
 ## Run tests from OpenAPI specification
 ```bash
 docker run --rm itbusina/testlemon -c https://api.mockrest.com/openapi/v1.json
+```
+
+Output
+```text
+Welcome to Testlemon!
+Created by https://itbusina.com.
+Contact contact@testlemon.com in case any questions.
+Testlemon is running.
+Running the collection 'd6b00018-dddd-40c2-b66f-eb1aaaba86ad' 1 time(s).
+POST     https://api.mockrest.com/users => OK in 00:00:00.5944665
+POST     https://api.mockrest.com/products => OK in 00:00:00.6435270
+DELETE   https://api.mockrest.com/products => OK in 00:00:00.7964084
+POST     https://api.mockrest.com/custom => Created in 00:00:00.8279779
+DELETE   https://api.mockrest.com/comments => OK in 00:00:00.9653697
+DELETE   https://api.mockrest.com/users => OK in 00:00:01.0035434
+POST     https://api.mockrest.com/comments => OK in 00:00:01.0071714
+GET      https://api.mockrest.com/products => OK in 00:00:01.0661048
+GET      https://api.mockrest.com/users => OK in 00:00:01.1363180
+GET      https://api.mockrest.com/comments => OK in 00:00:01.1407234
+
+Total requests: 10
+Successful: 10
+Failed: 0
+Total Duration: 00:00:02.1043505
 ```
 
 ## Run tests from file
