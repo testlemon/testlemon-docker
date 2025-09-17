@@ -11,11 +11,14 @@ WORKDIR /src
 RUN --mount=type=secret,id=nuget_token \
     GITHUB_TOKEN=$(cat /run/secrets/nuget_token) && \
     dotnet nuget add source "https://nuget.pkg.github.com/testlemon/index.json" \
-        --name github --username testlemon --password $GITHUB_TOKEN --store-password-in-clear-text && \
+        --name github \
+        --username testlemon \
+        --password $GITHUB_TOKEN \
+        --store-password-in-clear-text && \
     dotnet restore && \
     rm -rf /root/.nuget/NuGet/NuGet.Config
 
-RUN dotnet publish -c Release -o out
+RUN dotnet publish --no-restore -c Release -o out
 
 # Build the runtime image
 FROM mcr.microsoft.com/dotnet/runtime:9.0-alpine AS runtime
