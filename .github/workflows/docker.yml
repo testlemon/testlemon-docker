@@ -27,7 +27,7 @@ jobs:
         tags: testlemon:${{ github.sha }}
         file: ./src/Dockerfile
         secrets: |
-          "nuget_token=123456789abcdef"  # Using a dummy token here, replace with actual secret in real use
+          "nuget_token='123456789abcdef'"  # Using a dummy token here, replace with actual secret in real use
 
     - name: Test collection from file
       uses: itbusina/testlemon-action@v0.2
