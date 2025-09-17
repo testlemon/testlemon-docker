@@ -57,7 +57,7 @@ internal class Program
                 .AddSingleton<Testlemon.LLMClient.LlmClient>()
                 .AddSingleton<DataProcessor>()
                 .AddSingleton<ValidationProcessor>()
-                .AddAutoDiscoveredValidatorsFromAssembly(Path.Combine(AppContext.BaseDirectory, "Testlemon.Core.dll"))
+                .AddAutoDiscoveredValidatorsFromAssembly(Path.Combine(AppContext.BaseDirectory, "testlemon.dll"))
                 .AddSingleton<CollectionRunner>(sp =>
                 {
                     var dataProcessor = sp.GetRequiredService<DataProcessor>();
