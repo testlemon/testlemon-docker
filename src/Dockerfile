@@ -10,12 +10,10 @@ WORKDIR /src
 # Use the secret only for restore (doesn't get saved in layers)
 RUN --mount=type=secret,id=nuget_token \
     GITHUB_TOKEN=$(cat /run/secrets/nuget_token) && \
-    dotnet restore \
-      --source "https://api.nuget.org/v3/index.json" \
-      --source "https://nuget.pkg.github.com/testlemon/index.json" \
-      --username testlemon \
-      --password $GITHUB_TOKEN \
-      --store-password-in-clear-text
+    dotnet nuget add source "https://nuget.pkg.github.com/testlemon/index.json" \
+        --name github --username testlemon --password $GITHUB_TOKEN --store-password-in-clear-text && \
+    dotnet restore && \
+    rm -rf /root/.nuget/NuGet/NuGet.Config
 
 RUN dotnet publish -c Release -o out
 
