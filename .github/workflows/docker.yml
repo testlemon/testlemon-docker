@@ -25,7 +25,7 @@ jobs:
         secrets: nuget_token=${{ secrets.GITHUB_TOKEN }}
 
     - name: Test collection from file
-      uses: itbusina/testlemon-action@v0.2
+      uses: testlemon/testlemon-github-action@v1
       with:
           image: testlemon:${{ github.sha }}
           output_dir: ./output
@@ -33,7 +33,7 @@ jobs:
             --collections "$(<./tests/collection.json)"
 
     - name: Test Inline JSON Collection
-      uses: itbusina/testlemon-action@v0.2
+      uses: testlemon/testlemon-github-action@v1
       env:
         COLLECTION: '''{
             "name": "JSON collection",
@@ -51,7 +51,7 @@ jobs:
             --collections ${{ env.COLLECTION }}
 
     - name: Test Inline YAML Collection
-      uses: itbusina/testlemon-action@v0.2
+      uses: testlemon/testlemon-github-action@v1
       env:
         COLLECTION: |
           name: YAML collection
@@ -65,7 +65,7 @@ jobs:
             --collections '${{ env.COLLECTION }}'
     
     - name: Test multiple collections
-      uses: itbusina/testlemon-action@v0.2
+      uses: testlemon/testlemon-github-action@v1
       with:
           image: testlemon:${{ github.sha }}
           output_dir: ./output
@@ -73,7 +73,7 @@ jobs:
             --collections "$(<./tests/dir/collection-1.json)" "$(<./tests/dir/collection-2.json)"
     
     # - name: Test Directory with Collections
-    #   uses: itbusina/testlemon-action@v0.2
+    #   uses: testlemon/testlemon-github-action@v1
     #   with:
     #       image: testlemon:${{ github.sha }}
     #       input_dir: ./tests
@@ -82,7 +82,7 @@ jobs:
     #         --collections tests/dir
     
     - name: Test Collection from Url
-      uses: itbusina/testlemon-action@v0.2
+      uses: testlemon/testlemon-github-action@v1
       with:
           image: testlemon:${{ github.sha }}
           output_dir: ./output
@@ -90,7 +90,7 @@ jobs:
             --collections https://raw.githubusercontent.com/itbusina/testlemon-docs/refs/heads/main/examples/quick-start.yaml
 
     - name: Test Collection from OpenAPI URL
-      uses: itbusina/testlemon-action@v0.2
+      uses: testlemon/testlemon-github-action@v1
       with:
           image: testlemon:${{ github.sha }}
           output_dir: ./output
@@ -98,7 +98,7 @@ jobs:
             --collections https://api.mockrest.com/openapi/v1.json
     
     - name: Test Collection with Variables
-      uses: itbusina/testlemon-action@v0.2
+      uses: testlemon/testlemon-github-action@v1
       with:
           image: testlemon:${{ github.sha }}
           output_dir: ./output
@@ -107,7 +107,7 @@ jobs:
             --variables host=https://dummyjson.com
     
     - name: Test Collection with Secrets
-      uses: itbusina/testlemon-action@v0.2
+      uses: testlemon/testlemon-github-action@v1
       with:
           image: testlemon:${{ github.sha }}
           output_dir: ./output
@@ -116,7 +116,7 @@ jobs:
             --secrets login=${{ secrets.TEST_USERNAME }} password=${{ secrets.TEST_PASSWORD }}
     
     - name: Test Collection with Functions
-      uses: itbusina/testlemon-action@v0.2
+      uses: testlemon/testlemon-github-action@v1
       with:
           image: testlemon:${{ github.sha }}
           output_dir: ./output
@@ -124,7 +124,7 @@ jobs:
             --collections "$(<./tests/collection-functions.json)"
     
     - name: Test iteration with delay
-      uses: itbusina/testlemon-action@v0.2
+      uses: testlemon/testlemon-github-action@v1
       with:
           image: testlemon:${{ github.sha }}
           output_dir: ./output
@@ -134,7 +134,7 @@ jobs:
             --delay 500
     
     - name: Test Collection with Tags
-      uses: itbusina/testlemon-action@v0.2
+      uses: testlemon/testlemon-github-action@v1
       with:
           image: testlemon:${{ github.sha }}
           output_dir: ./output
@@ -143,7 +143,7 @@ jobs:
             --tags smoke
     
     - name: Test Collection with Dependencies
-      uses: itbusina/testlemon-action@v0.2
+      uses: testlemon/testlemon-github-action@v1
       with:
           image: testlemon:${{ github.sha }}
           output_dir: ./output
@@ -151,7 +151,7 @@ jobs:
             --collections "$(<./tests/collection-dependencies.json)"
 
     - name: Test Collection with shared context between tests
-      uses: itbusina/testlemon-action@v0.2
+      uses: testlemon/testlemon-github-action@v1
       with:
           image: testlemon:${{ github.sha }}
           output_dir: ./output
@@ -159,21 +159,9 @@ jobs:
             --collections "$(<./tests/collection-context.json)" \
             --secrets login=${{ secrets.TEST_USERNAME }} password=${{ secrets.TEST_PASSWORD }} \
             --verbose
-
-    # - name: Test Collection with LLM functions
-    #   uses: itbusina/testlemon-action@v0.2
-    #   with:
-    #       image: testlemon:${{ github.sha }}
-    #       output_dir: ./output
-    #       args: |
-    #         --collections "$(<./tests/collection-llm.json)" \
-    #         --secrets login=${{ secrets.TEST_USERNAME }} password=${{ secrets.TEST_PASSWORD }} \
-    #         --verbose \
-    #         --openai-apikey ${{ secrets.OPEN_AI_KEY }} \
-    #         --ollama-endpoint ${{ secrets.OLLAMA_ENDPOINT }}
     
     - name: Test YAML collection
-      uses: itbusina/testlemon-action@v0.2
+      uses: testlemon/testlemon-github-action@v1
       with:
           image: testlemon:${{ github.sha }}
           output_dir: ./output
@@ -181,7 +169,7 @@ jobs:
             --collections "$(<./tests/collection.yaml)"
     
     - name: Test SSL expiration validators
-      uses: itbusina/testlemon-action@v0.2
+      uses: testlemon/testlemon-github-action@v1
       with:
           image: testlemon:${{ github.sha }}
           output_dir: ./output
@@ -196,17 +184,8 @@ jobs:
           args: |
             --collections "$(<./tests/collection-domain.yaml)"
     
-    # - name: Test LLM Prompt validators
-    #   uses: itbusina/testlemon-action@v0.2
-    #   with:
-    #       image: testlemon:${{ github.sha }}
-    #       output_dir: ./output
-    #       args: |
-    #         --collections "$(<./tests/collection-prompt.yaml)" \
-    #         --openai-apikey ${{ secrets.OPEN_AI_KEY }}
-    
     - name: Test sitemap validators
-      uses: itbusina/testlemon-action@v0.2
+      uses: testlemon/testlemon-github-action@v1
       with:
           image: testlemon:${{ github.sha }}
           output_dir: ./output
@@ -214,7 +193,7 @@ jobs:
             --collections "$(<./tests/collection-sitemap.yaml)"
 
     - name: Test DNS validators
-      uses: itbusina/testlemon-action@v0.2
+      uses: testlemon/testlemon-github-action@v1
       with:
           image: testlemon:${{ github.sha }}
           output_dir: ./output
@@ -222,7 +201,7 @@ jobs:
             --collections "$(<./tests/collection-dns.yaml)"
 
     - name: Test DMARC DNS validators
-      uses: itbusina/testlemon-action@v0.2
+      uses: testlemon/testlemon-github-action@v1
       with:
           image: testlemon:${{ github.sha }}
           output_dir: ./output
@@ -230,7 +209,7 @@ jobs:
             --collections "$(<./tests/collection-dmarc.yaml)"
             
     - name: Test SPF DNS validators
-      uses: itbusina/testlemon-action@v0.2
+      uses: testlemon/testlemon-github-action@v1
       with:
           image: testlemon:${{ github.sha }}
           output_dir: ./output
@@ -238,24 +217,15 @@ jobs:
             --collections "$(<./tests/collection-spf.yaml)"
     
     - name: Test DKIM DNS validators
-      uses: itbusina/testlemon-action@v0.2
+      uses: testlemon/testlemon-github-action@v1
       with:
           image: testlemon:${{ github.sha }}
           output_dir: ./output
           args: |
             --collections "$(<./tests/collection-dkim.yaml)"
 
-    # - name: Test Sentiment validator
-    #   uses: itbusina/testlemon-action@v0.2
-    #   with:
-    #       image: testlemon:${{ github.sha }}
-    #       output_dir: ./output
-    #       args: |
-    #         --collections "$(<./tests/collection-sentiment.yaml)" \
-    #         --openai-apikey ${{ secrets.OPEN_AI_KEY }}
-
     - name: Test TLS validator
-      uses: itbusina/testlemon-action@v0.2
+      uses: testlemon/testlemon-github-action@v1
       with:
           image: testlemon:${{ github.sha }}
           output_dir: ./output
@@ -263,7 +233,7 @@ jobs:
             --collections "$(<./tests/collection-tls.yaml)"
 
     - name: Test Output
-      uses: itbusina/testlemon-action@v0.2
+      uses: testlemon/testlemon-github-action@v1
       with:
           image: testlemon:${{ github.sha }}
           output_dir: output
@@ -272,7 +242,7 @@ jobs:
             --output output/output.json
 
     - name: Test XRay output format
-      uses: itbusina/testlemon-action@v0.2
+      uses: testlemon/testlemon-github-action@v1
       with:
           image: testlemon:${{ github.sha }}
           output_dir: ./output
@@ -282,7 +252,7 @@ jobs:
             --output-format xray
 
     - name: Test JSON output format
-      uses: itbusina/testlemon-action@v0.2
+      uses: testlemon/testlemon-github-action@v1
       with:
           image: testlemon:${{ github.sha }}
           output_dir: ./output
@@ -290,6 +260,36 @@ jobs:
             --collections "$(<./tests/collection-xray.yaml)" \
             --output output/output.json \
             --output-format json
+    
+    # - name: Test Collection with LLM functions
+    #   uses: testlemon/testlemon-github-action@v1
+    #   with:
+    #       image: testlemon:${{ github.sha }}
+    #       output_dir: ./output
+    #       args: |
+    #         --collections "$(<./tests/collection-llm.json)" \
+    #         --secrets login=${{ secrets.TEST_USERNAME }} password=${{ secrets.TEST_PASSWORD }} \
+    #         --verbose \
+    #         --openai-apikey ${{ secrets.OPEN_AI_KEY }} \
+    #         --ollama-endpoint ${{ secrets.OLLAMA_ENDPOINT }}
+    
+    # - name: Test LLM Prompt validators
+    #   uses: testlemon/testlemon-github-action@v1
+    #   with:
+    #       image: testlemon:${{ github.sha }}
+    #       output_dir: ./output
+    #       args: |
+    #         --collections "$(<./tests/collection-prompt.yaml)" \
+    #         --openai-apikey ${{ secrets.OPEN_AI_KEY }}
+
+    # - name: Test Sentiment validator
+    #   uses: testlemon/testlemon-github-action@v1
+    #   with:
+    #       image: testlemon:${{ github.sha }}
+    #       output_dir: ./output
+    #       args: |
+    #         --collections "$(<./tests/collection-sentiment.yaml)" \
+    #         --openai-apikey ${{ secrets.OPEN_AI_KEY }}
 
     # - name: Archive output results
     #   if: always()
