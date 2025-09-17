@@ -22,7 +22,7 @@ jobs:
         load: true
         tags: testlemon:${{ github.sha }}
         file: ./src/Dockerfile
-        secrets: nuget_token=${{ secrets.GH_PAT }}
+        secrets: nuget_token=${{ secrets.GITHUB_TOKEN }}
 
     - name: Test collection from file
       uses: itbusina/testlemon-action@v0.2
@@ -329,4 +329,4 @@ jobs:
           index.docker.io/${{ secrets.DOCKER_ORGANIZATION_NAME }}/testlemon:${{ github.sha }}
           index.docker.io/${{ secrets.DOCKER_ORGANIZATION_NAME }}/testlemon:latest
         file: ./src/Dockerfile
-        secrets: nuget_token=${{ secrets.GH_PAT }}
+        secrets: nuget_token=${{ secrets.GITHUB_TOKEN }}
