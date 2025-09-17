@@ -44,9 +44,9 @@ Create a file with tests ```collection.yaml```
 
 ```text
 tests:
-- url: https://dummyjson.com/users
-- url: https://dummyjson.com/comments
-- url: https://dummyjson.com/products
+- url: https://api.mockrest.com/users
+- url: https://api.mockrest.com/products
+- url: https://api.mockrest.com/comments
 ```
 
 Run the tests:
@@ -83,7 +83,7 @@ tests:
 ```
 
 ```shell
-docker run --rm itbusina/testlemon:latest -c "$(<collection.yaml)" --variables host=https://dummyjson.com
+docker run --rm itbusina/testlemon:latest -c "$(<collection.yaml)" --variables host=https://api.mockrest.com
 ```
 
 ## Run test collection with secrets
@@ -98,5 +98,5 @@ tests:
 ```
 
 ```shell
-docker run --rm itbusina/testlemon:latest -c "$(<collection.yaml)" --secrets host=https://dummyjson.com
+docker run --rm itbusina/testlemon:latest -c "$(<collection.yaml)" --secrets host=https://api.mockrest.com
 ```
