@@ -1,10 +1,15 @@
 # Use the official .NET Core SDK image as the base image
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 
-ARG "GITHUB_TOKEN"
-
-# Add GitHub NuGet source dynamically with token
-RUN dotnet nuget add source "https://nuget.pkg.github.com/testlemon/index.json" --name github --username testlemon --password $GITHUB_TOKEN --store-password-in-clear-text
+# Use the secret only for restore (doesn't get saved in layers)
+RUN --mount=type=secret,id=nuget_token \
+    GITHUB_TOKEN=$(cat /run/secrets/nuget_token) && \
+    dotnet nuget add source "https://nuget.pkg.github.com/testlemon/index.json" \
+        --name github \
+        --username testlemon \
+        --password $GITHUB_TOKEN \
+        --store-password-in-clear-text && \
+    dotnet restore
 
 # Copy project files
 COPY ./src/ ./src
