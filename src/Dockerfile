@@ -1,21 +1,22 @@
 # Use the official .NET Core SDK image as the base image
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 
-# Use the secret only for restore (doesn't get saved in layers)
-RUN --mount=type=secret,id=nuget_token \
-    GITHUB_TOKEN=$(cat /run/secrets/nuget_token) && \
-    dotnet nuget add source "https://nuget.pkg.github.com/testlemon/index.json" \
-        --name github \
-        --username testlemon \
-        --password $GITHUB_TOKEN \
-        --store-password-in-clear-text && \
-    dotnet restore
-
 # Copy project files
 COPY ./src/ ./src
 
 # Publish app to out folder
 WORKDIR /src
+
+# Use the secret only for restore (doesn't get saved in layers)
+RUN --mount=type=secret,id=nuget_token \
+    GITHUB_TOKEN=$(cat /run/secrets/nuget_token) && \
+    dotnet restore \
+      --source "https://api.nuget.org/v3/index.json" \
+      --source "https://nuget.pkg.github.com/testlemon/index.json" \
+      --username testlemon \
+      --password $GITHUB_TOKEN \
+      --store-password-in-clear-text
+
 RUN dotnet publish -c Release -o out
 
 # Build the runtime image
