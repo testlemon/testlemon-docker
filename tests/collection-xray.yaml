@@ -1,0 +1,15 @@
+name: XRay tests
+baseUrl: https://dummyjson.com
+metadata:
+  - execution-description: "Testlemon CLI pipeline execution"
+  - revision: 1
+    version: 1.0.0
+    test-plan-key: "XSP-88"
+    environments: "DesktopChrome"
+tests:
+  - url: /products
+    name: Get all products
+    metadata:
+      - project-key: XSP
+        requirement-keys: XSP-84
+        definition: Validate that GET all products API returns 200 OK status

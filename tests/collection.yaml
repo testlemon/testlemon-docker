@@ -1,0 +1,33 @@
+baseUrl: https://dummyjson.com
+tests:
+- name: Validate authentication with GET method
+  url: "/auth/login"
+  tags:
+    - smoke
+    - regression
+  validators:
+    - is-successful: false
+    - response-time: 1000
+- name: Validate authentication with POST method
+  url: "/auth/login"
+  method: POST
+  tags:
+    - smoke
+    - regression
+  headers:
+    - 'Content-Type: application/json'
+  body: '{"username":"emilys","password":"emilyspass"}'
+- name: Update user's lastname by user id
+  url: "/users/1"
+  method: PUT
+  tags:
+    - regression
+  headers:
+    - 'Content-Type: application/json'
+  body: '{"lastname":"Updated"}'
+- name: Get comment by id
+  url: "/comments/1"
+  tags:
+    - regression
+  validators:
+    - body-contains: This is some awesome thinking!

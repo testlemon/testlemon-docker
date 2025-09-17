@@ -1,0 +1,16 @@
+name: Dependencies example
+baseUrl: https://dummyjson.com
+tests:
+- name: Get all users
+  id: fetchUsers
+  url: /users
+  context:
+  - name: userId
+    type: variable
+    pattern: '"id":\s*(\d+)'
+- name: Get user by id
+  dependsOn: fetchUsers
+  url: /users/${{ context.userId }}
+  validators:
+  - status-code: 200
+  - body-contains: "${{ context.userId }}"

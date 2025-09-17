@@ -1,0 +1,5 @@
+name: DKIM tests
+tests:
+- url: https://itbusina.com
+  validators:
+  - dns-dkim-exists: true

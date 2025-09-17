@@ -1,0 +1,54 @@
+{
+  "baseUrl": "https://dummyjson.com",
+  "tests": [
+    {
+      "url": "/auth/login",
+      "tags": [
+        "smoke",
+        "regression"
+      ],
+      "validators": [
+        {
+          "is-successful": "false"
+        },
+        {
+          "response-time": 1000
+        }
+      ]
+    },
+    {
+      "url": "/auth/login",
+      "method": "POST",
+      "tags": [
+        "smoke",
+        "regression"
+      ],
+      "headers": [
+        "Content-Type: application/json"
+      ],
+      "body": "{\"username\":\"emilys\",\"password\":\"emilyspass\"}"
+    },
+    {
+      "url": "/users/1",
+      "method": "PUT",
+      "tags": [
+        "regression"
+      ],
+      "headers": [
+        "Content-Type: application/json"
+      ],
+      "body": "{\"lastname\":\"Updated\"}"
+    },
+    {
+      "url": "/comments/1",
+      "tags": [
+        "regression"
+      ],
+      "validators": [
+        {
+          "body-contains": "This is some awesome thinking!"
+        }
+      ]
+    }
+  ]
+}

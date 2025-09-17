@@ -1,0 +1,5 @@
+name: DNS tests
+tests:
+- url: https://itbusina.com
+  validators:
+    - dns-record-exists: "NS:@:henrik.ns.cloudflare.com."

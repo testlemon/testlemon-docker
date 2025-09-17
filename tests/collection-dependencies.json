@@ -1,0 +1,18 @@
+{
+  "name": "Collection to test dependencies",
+  "baseUrl": "https://dummyjson.com",
+  "tests": [
+    {
+      "id": "getUsers",
+      "url": "/users/1"
+    },
+    {
+      "dependsOn": "getUsers",
+      "url": "/products"
+    },
+    {
+      "dependsOn": "getUsers",
+      "url": "/products"
+    }
+  ]
+}

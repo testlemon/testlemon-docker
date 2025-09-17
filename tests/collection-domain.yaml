@@ -1,0 +1,23 @@
+name: Domain expiration date tests
+tests:
+- url: https://google.com
+  validators:
+  - domain-expiration-after: 1
+  - domain-expiration-after: 1d
+  - domain-expiration-after: 1day
+  - domain-expiration-after: 1days
+  - domain-expiration-after: 1w
+  - domain-expiration-after: 1week
+  - domain-expiration-after: 1weeks
+  - domain-expiration-after: 1m
+  - domain-expiration-after: 1month
+  - domain-expiration-after: 1months
+  - domain-expiration-after: ${{ func.utcnow() }}
+  - domain-expiration-before: 10/12/2100
+  - domain-expiration-before: 10000
+- url: https://www.mozilla.org/
+  validators:
+  - domain-expiration-after: 1
+- url: https://huggingface.co
+  validators:
+  - domain-expiration-after: 1

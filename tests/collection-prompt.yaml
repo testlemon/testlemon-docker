@@ -1,0 +1,8 @@
+name: Prompt test
+tests:
+- url: https://dummyjson.com/comments
+  validators:
+  - prompt: "gpt-3.5-turbo-0125: The response is in JSON format."
+  - prompt: "gpt-4o-mini: The response is a list of comments."
+  - prompt: "gpt-4o: The response contains 30 comments."
+  - prompt: "gpt-4o: Each comment in the response contains comment id, user details and number of likes."

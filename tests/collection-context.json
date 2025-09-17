@@ -1,0 +1,29 @@
+{
+  "name": "Collection to test context",
+  "baseUrl": "https://dummyjson.com",
+  "tests": [
+    {
+      "id": "auth",
+      "url": "/auth/login",
+      "method": "POST",
+      "headers": [
+        "Content-Type: application/json"
+      ],
+      "body": "{\"username\":\"${{ secrets.login }}\",\"password\":\"${{ secrets.password }}\"}",
+      "context": [
+        {
+          "name": "token",
+          "type": "secret",
+          "pattern": "\"accessToken\":\\s*\"([^\"]+)\""
+        }
+      ]
+    },
+    {
+      "dependsOn": "auth",
+      "url": "/auth/me",
+      "headers": [
+        "Authorization: Bearer ${{ context.token }}"
+      ]
+    }
+  ]
+}

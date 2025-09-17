@@ -1,0 +1,7 @@
+name: TLS tests
+tests:
+- url: https://itbusina.com
+  validators:
+  - tls-version-equals: Tls13
+  - tls-version-equals: Tls12
+  - tls-version-not-equals: Tls11

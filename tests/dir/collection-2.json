@@ -1,0 +1,12 @@
+{
+  "name": "Collection 2",
+  "baseUrl": "https://dummyjson.com",
+  "tests": [
+    {
+      "url": "/users"
+    },
+    {
+      "url": "/comments/1"
+    }
+  ]
+}

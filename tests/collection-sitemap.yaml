@@ -1,0 +1,8 @@
+name: Monitor itbusina pages from sitemap
+tests:
+- url: https://itbusina.com/
+  validators:
+  - sitemap-each-body-contains: "itbusina"       # True when All pages contain keyword
+  - sitemap-each-body-not-contains: "itbusino"   # True when ALL pages do not contain keyword
+  - sitemap-any-body-contains: "itbusina"        # True when at least one page contains keyword
+  - sitemap-any-body-not-contains: "itbusino"    # True when at least one page does not contain keyword

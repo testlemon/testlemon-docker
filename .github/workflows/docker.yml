@@ -1,0 +1,330 @@
+name: Testlemon Docker Workflow
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build-and-test:
+    name: Build and Test
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Code checkout
+      uses: actions/checkout@v4
+      
+    - name: Build the image
+      uses: docker/build-push-action@v5.3.0
+      with:
+        push: false
+        #platforms: linux/amd64 #,linux/arm64
+        load: true
+        tags: testlemon:${{ github.sha }}
+        file: ./src/Dockerfile
+
+    - name: Test collection from file
+      uses: itbusina/testlemon-action@v0.2
+      with:
+          image: testlemon:${{ github.sha }}
+          output_dir: ./output
+          args: |
+            --collections "$(<./tests/collection.json)"
+
+    - name: Test Inline JSON Collection
+      uses: itbusina/testlemon-action@v0.2
+      env:
+        COLLECTION: '''{
+            "name": "JSON collection",
+            "baseUrl": "https://dummyjson.com",
+            "tests": [
+              {
+                "url": "/users/1"
+              }
+            ]
+          }'''
+      with:
+          image: testlemon:${{ github.sha }}
+          output_dir: ./output
+          args: |
+            --collections ${{ env.COLLECTION }}
+
+    - name: Test Inline YAML Collection
+      uses: itbusina/testlemon-action@v0.2
+      env:
+        COLLECTION: |
+          name: YAML collection
+          baseUrl: https://dummyjson.com
+          tests:
+            - url: /comments
+      with:
+          image: testlemon:${{ github.sha }}
+          output_dir: ./output
+          args: |
+            --collections '${{ env.COLLECTION }}'
+    
+    - name: Test multiple collections
+      uses: itbusina/testlemon-action@v0.2
+      with:
+          image: testlemon:${{ github.sha }}
+          output_dir: ./output
+          args: |
+            --collections "$(<./tests/dir/collection-1.json)" "$(<./tests/dir/collection-2.json)"
+    
+    # - name: Test Directory with Collections
+    #   uses: itbusina/testlemon-action@v0.2
+    #   with:
+    #       image: testlemon:${{ github.sha }}
+    #       input_dir: ./tests
+    #       output_dir: ./output
+    #       args: |
+    #         --collections tests/dir
+    
+    - name: Test Collection from Url
+      uses: itbusina/testlemon-action@v0.2
+      with:
+          image: testlemon:${{ github.sha }}
+          output_dir: ./output
+          args: |
+            --collections https://raw.githubusercontent.com/itbusina/testlemon-docs/refs/heads/main/examples/quick-start.yaml
+
+    - name: Test Collection from OpenAPI URL
+      uses: itbusina/testlemon-action@v0.2
+      with:
+          image: testlemon:${{ github.sha }}
+          output_dir: ./output
+          args: |
+            --collections https://api.mockrest.com/openapi/v1.json
+    
+    - name: Test Collection with Variables
+      uses: itbusina/testlemon-action@v0.2
+      with:
+          image: testlemon:${{ github.sha }}
+          output_dir: ./output
+          args: |
+            --collections "$(<./tests/collection-variables.json)" \
+            --variables host=https://dummyjson.com
+    
+    - name: Test Collection with Secrets
+      uses: itbusina/testlemon-action@v0.2
+      with:
+          image: testlemon:${{ github.sha }}
+          output_dir: ./output
+          args: |
+            --collections "$(<./tests/collection-secrets.json)" \
+            --secrets login=${{ secrets.TEST_USERNAME }} password=${{ secrets.TEST_PASSWORD }}
+    
+    - name: Test Collection with Functions
+      uses: itbusina/testlemon-action@v0.2
+      with:
+          image: testlemon:${{ github.sha }}
+          output_dir: ./output
+          args: |
+            --collections "$(<./tests/collection-functions.json)"
+    
+    - name: Test iteration with delay
+      uses: itbusina/testlemon-action@v0.2
+      with:
+          image: testlemon:${{ github.sha }}
+          output_dir: ./output
+          args: |
+            --collections "$(<./tests/collection.json)" \
+            --repeats 3 \
+            --delay 500
+    
+    - name: Test Collection with Tags
+      uses: itbusina/testlemon-action@v0.2
+      with:
+          image: testlemon:${{ github.sha }}
+          output_dir: ./output
+          args: |
+            --collections "$(<./tests/collection.json)" \
+            --tags smoke
+    
+    - name: Test Collection with Dependencies
+      uses: itbusina/testlemon-action@v0.2
+      with:
+          image: testlemon:${{ github.sha }}
+          output_dir: ./output
+          args: |
+            --collections "$(<./tests/collection-dependencies.json)"
+
+    - name: Test Collection with shared context between tests
+      uses: itbusina/testlemon-action@v0.2
+      with:
+          image: testlemon:${{ github.sha }}
+          output_dir: ./output
+          args: |
+            --collections "$(<./tests/collection-context.json)" \
+            --secrets login=${{ secrets.TEST_USERNAME }} password=${{ secrets.TEST_PASSWORD }} \
+            --verbose
+
+    # - name: Test Collection with LLM functions
+    #   uses: itbusina/testlemon-action@v0.2
+    #   with:
+    #       image: testlemon:${{ github.sha }}
+    #       output_dir: ./output
+    #       args: |
+    #         --collections "$(<./tests/collection-llm.json)" \
+    #         --secrets login=${{ secrets.TEST_USERNAME }} password=${{ secrets.TEST_PASSWORD }} \
+    #         --verbose \
+    #         --openai-apikey ${{ secrets.OPEN_AI_KEY }} \
+    #         --ollama-endpoint ${{ secrets.OLLAMA_ENDPOINT }}
+    
+    - name: Test YAML collection
+      uses: itbusina/testlemon-action@v0.2
+      with:
+          image: testlemon:${{ github.sha }}
+          output_dir: ./output
+          args: |
+            --collections "$(<./tests/collection.yaml)"
+    
+    - name: Test SSL expiration validators
+      uses: itbusina/testlemon-action@v0.2
+      with:
+          image: testlemon:${{ github.sha }}
+          output_dir: ./output
+          args: |
+            --collections "$(<./tests/collection-ssl.yaml)"
+
+    - name: Test DOMAIN expiration validatos
+      uses: itbusina/testlemon-action@v0.1.16-alpha
+      with:
+          image: testlemon:${{ github.sha }}
+          output_dir: ./output
+          args: |
+            --collections "$(<./tests/collection-domain.yaml)"
+    
+    # - name: Test LLM Prompt validators
+    #   uses: itbusina/testlemon-action@v0.2
+    #   with:
+    #       image: testlemon:${{ github.sha }}
+    #       output_dir: ./output
+    #       args: |
+    #         --collections "$(<./tests/collection-prompt.yaml)" \
+    #         --openai-apikey ${{ secrets.OPEN_AI_KEY }}
+    
+    - name: Test sitemap validators
+      uses: itbusina/testlemon-action@v0.2
+      with:
+          image: testlemon:${{ github.sha }}
+          output_dir: ./output
+          args: |
+            --collections "$(<./tests/collection-sitemap.yaml)"
+
+    - name: Test DNS validators
+      uses: itbusina/testlemon-action@v0.2
+      with:
+          image: testlemon:${{ github.sha }}
+          output_dir: ./output
+          args: |
+            --collections "$(<./tests/collection-dns.yaml)"
+
+    - name: Test DMARC DNS validators
+      uses: itbusina/testlemon-action@v0.2
+      with:
+          image: testlemon:${{ github.sha }}
+          output_dir: ./output
+          args: |
+            --collections "$(<./tests/collection-dmarc.yaml)"
+            
+    - name: Test SPF DNS validators
+      uses: itbusina/testlemon-action@v0.2
+      with:
+          image: testlemon:${{ github.sha }}
+          output_dir: ./output
+          args: |
+            --collections "$(<./tests/collection-spf.yaml)"
+    
+    - name: Test DKIM DNS validators
+      uses: itbusina/testlemon-action@v0.2
+      with:
+          image: testlemon:${{ github.sha }}
+          output_dir: ./output
+          args: |
+            --collections "$(<./tests/collection-dkim.yaml)"
+
+    # - name: Test Sentiment validator
+    #   uses: itbusina/testlemon-action@v0.2
+    #   with:
+    #       image: testlemon:${{ github.sha }}
+    #       output_dir: ./output
+    #       args: |
+    #         --collections "$(<./tests/collection-sentiment.yaml)" \
+    #         --openai-apikey ${{ secrets.OPEN_AI_KEY }}
+
+    - name: Test TLS validator
+      uses: itbusina/testlemon-action@v0.2
+      with:
+          image: testlemon:${{ github.sha }}
+          output_dir: ./output
+          args: |
+            --collections "$(<./tests/collection-tls.yaml)"
+
+    - name: Test Output
+      uses: itbusina/testlemon-action@v0.2
+      with:
+          image: testlemon:${{ github.sha }}
+          output_dir: output
+          args: |
+            --collections "$(<./tests/collection.json)" \
+            --output output/output.json
+
+    - name: Test XRay output format
+      uses: itbusina/testlemon-action@v0.2
+      with:
+          image: testlemon:${{ github.sha }}
+          output_dir: ./output
+          args: |
+            --collections "$(<./tests/collection-xray.yaml)" \
+            --output output/output.json \
+            --output-format xray
+
+    - name: Test JSON output format
+      uses: itbusina/testlemon-action@v0.2
+      with:
+          image: testlemon:${{ github.sha }}
+          output_dir: ./output
+          args: |
+            --collections "$(<./tests/collection-xray.yaml)" \
+            --output output/output.json \
+            --output-format json
+
+    # - name: Archive output results
+    #   if: always()
+    #   uses: actions/upload-artifact@v4
+    #   with:
+    #     name: tests
+    #     path: ./output/
+
+  deploy:
+    name: Push image
+    runs-on: ubuntu-latest
+    needs: [build-and-test]
+
+    steps:
+    - name: Code checkout
+      uses: actions/checkout@v4
+      
+    - name: Log in to registry
+      uses: docker/login-action@v3.1.0
+      with:
+        registry: https://index.docker.io/v1/
+        username: ${{ secrets.DOCKER_USER_NAME }}
+        password: ${{ secrets.DOCKER_ACCESS_TOKEN }}
+
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v3
+    
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3.3.0
+      
+    - name: Build the Multi-Platform Image
+      uses: docker/build-push-action@v5.3.0
+      with:
+        push: true
+        platforms: linux/arm64,linux/amd64
+        tags: |
+          index.docker.io/${{ secrets.DOCKER_ORGANIZATION_NAME }}/testlemon:${{ github.sha }}
+          index.docker.io/${{ secrets.DOCKER_ORGANIZATION_NAME }}/testlemon:latest
+        file: ./src/Dockerfile

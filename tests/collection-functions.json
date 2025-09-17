@@ -1,0 +1,14 @@
+{
+  "name": "Collection to test functions",
+  "baseUrl": "https://dummyjson.com",
+  "tests": [
+    {
+      "url": "/comments/add",
+      "method": "POST",
+      "headers": [
+        "Content-Type: application/json"
+      ],
+      "body": "{\"body\":\"This makes all sense to me! Date: ${{ func.utcnow() }}, Guid: ${{ func.guid() }}, Random: ${{ func.random() }}\",\"postId\":3,\"userId\":5}"
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+name: SSL tests
+tests:
+- url: https://www.google.com/
+  validators:
+  - ssl-expiration-after: 1
+  - ssl-expiration-after: 1d
+  - ssl-expiration-after: 1day
+  - ssl-expiration-after: 1days
+  - ssl-expiration-after: 1w
+  - ssl-expiration-after: 1week
+  - ssl-expiration-after: 1weeks
+  - ssl-expiration-after: 1m
+  - ssl-expiration-after: 1month
+  - ssl-expiration-after: 1months
+  - ssl-expiration-after: ${{ func.utcnow() }}
+  - ssl-expiration-before: 10/12/2100
+  - ssl-expiration-before: 10000

@@ -1,0 +1,5 @@
+name: SPF tests
+tests:
+- url: https://itbusina.com
+  validators:
+  - dns-spf-exists: true

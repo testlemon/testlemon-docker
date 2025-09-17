@@ -1,0 +1,5 @@
+name: Sentiments test collection
+tests:
+- url: https://dummyjson.com/users/1
+  validators:
+  - sentiment: neutral

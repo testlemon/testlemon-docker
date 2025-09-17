@@ -1,0 +1,30 @@
+{
+  "name": "Collection to test openai function.",
+  "baseUrl": "https://dummyjson.com",
+  "tests": [
+    {
+      "url": "/comments/add",
+      "method": "POST",
+      "headers": [
+        "Content-Type: application/json"
+      ],
+      "body": "{\"body\":\"${{ gpt-4o.text(50) }}\",\"postId\":3,\"userId\":5}"
+    },
+    {
+      "url": "/comments/add",
+      "method": "POST",
+      "headers": [
+        "Content-Type: application/json"
+      ],
+      "body": "{\"body\":\"${{ gpt-4-turbo.text() }}\",\"postId\":3,\"userId\":5}"
+    },
+    {
+      "url": "/comments/add",
+      "method": "POST",
+      "headers": [
+        "Content-Type: application/json"
+      ],
+      "body": "{\"body\":\"${{ gpt-4.text(20) }}\",\"postId\":3,\"userId\":5}"
+    }
+  ]
+}

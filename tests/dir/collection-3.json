@@ -1,0 +1,10 @@
+{
+  "tests": [
+    {
+      "url": "https://www.google.com/"
+    },
+    {
+      "url": "https://finance.yahoo.com/"
+    }
+  ]
+}

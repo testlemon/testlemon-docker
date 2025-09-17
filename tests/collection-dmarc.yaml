@@ -1,0 +1,7 @@
+name: DMARC tests
+tests:
+- url: https://itbusina.com
+  validators:
+  - dns-dmarc-exists: true
+  - dns-dmarc-single-record: true
+  - dns-dmarc-strict-policy: true
