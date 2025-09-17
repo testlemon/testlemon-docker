@@ -4,6 +4,11 @@
 
 Testlemon is a tool for easy and quick web api testing and monitoring.
 
+<video width="600" controls>
+  <source src="https://github.com/testlemon/testlemon-docs/raw/main/logos/demo.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+
 # Documentation
 Vitis [docs.testlemon.com](https://docs.testlemon.com) for complete documentation.
 
